@@ -10,7 +10,7 @@ const errorMiddleware = require('./middleware/error');
 
 app.use(cors());
 app.use(express.json());
-
+app.use((req, res, next) => {delete req.headers['If-None-Match']; next();})
 //Routes
 app.use("/api/v1", userRoute);
 app.use("/api/v1", roleRoute); 

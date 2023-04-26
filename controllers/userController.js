@@ -19,7 +19,6 @@ exports.registerUser = catchAsyncErr(async (req, res, next) => {
       ).toString(),
     });
     const savedUser = await newUser.save();
-    console.log(savedUser);
     const accessToken = jwt.sign({ ...savedUser._doc }, process.env.JWT_SEC);
     // const { password, ...others } = savedUser._doc;
     res.status(201).json({ sucess: true, accessToken , user : savedUser});
@@ -45,7 +44,6 @@ exports.login = catchAsyncErr(async (req, res, next) => {
   }
 
   const user = await User.findOne({ email }).populate("rolePermission");
-  console.log(JSON.stringify(user));
   if (!user) {
     return next(new ErrorHandler("Email does not exist", 404));
   }
@@ -77,7 +75,8 @@ exports.updateUser = catchAsyncErr(async (req, res, next) => {
     },
     { new: true }
   );
-  res.status(200).json(updatedUser);
+  
+  res.status(200).json({success: true , data: updatedUser});
 });
 
 exports.deleteUser = catchAsyncErr(async (req, res, next) => {
@@ -90,6 +89,14 @@ exports.deleteUser = catchAsyncErr(async (req, res, next) => {
 
 exports.getUser = catchAsyncErr(async (req, res, next) => {
   const user = await User.findById(req.params.id);
+  if(!user){
+    return next( new ErrorHandler("User does not exist", 404))
+  }
+  const { password, ...others } = user._doc;
+  res.status(200).json(others);
+});
+exports.getMe = catchAsyncErr(async (req, res, next) => {
+  const user = await User.findById(req.user.id).populate("rolePermission");
   if(!user){
     return next( new ErrorHandler("User does not exist", 404))
   }

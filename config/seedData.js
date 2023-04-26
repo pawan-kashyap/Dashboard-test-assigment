@@ -1,30 +1,44 @@
 const Role = require("../models/roleModel");
 const User = require("../models/userModel");
-const async = require("async")
+const async = require("async");
+const CryptoJS = require("crypto-js");
 
 const users = [
   new User({
     username: "admin",
     email: "admin@gmail.com",
-    password: "admin",
+    password: CryptoJS.AES.encrypt(
+      "admin",
+      process.env.PASS_SEC
+    ).toString(),
     roleName: "admin",
   }),
   new User({
-    username: "subAdmin",
-    email: "subAdmin@gmail.com",
-    password: "subAdmin",
+    username: "subadmin",
+    email: "subadmin@gmail.com",
+    password: CryptoJS.AES.encrypt(
+      "subadmin",
+      process.env.PASS_SEC
+    ).toString(),
     roleName: "sub-admin",
   }),
   new User({
     username: "manager",
     email: "manager@gmail.com",
-    password: "manager",
+    password: CryptoJS.AES.encrypt(
+      "manager",
+      process.env.PASS_SEC
+    ).toString(),
     roleName: "manager",
   }),
   new User({
     username: "user",
     email: "user@gmail.com",
-    password: "user",
+    password: CryptoJS.AES.encrypt(
+      "user",
+      process.env.PASS_SEC
+    ).toString(),
+    roleName: "manager",
     roleName: "user",
   }),
 ];

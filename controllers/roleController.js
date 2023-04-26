@@ -10,7 +10,6 @@ exports.createRole = catchAsyncErr(async (req, res) => {
 
 exports.deleteRole = catchAsyncErr(async (req, res, next) => {
   const deletedRole = await Role.findByIdAndDelete(req.params.id);
-  console.log(deletedRole);
   if(!deletedRole){
     return next(new errorHandler("Role does not exist.", 404))
   }
