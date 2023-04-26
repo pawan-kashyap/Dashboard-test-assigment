@@ -1,0 +1,3 @@
+MONGO_URL = mongodb+srv://pawan01:pawan01@cluster0.jnr1l.mongodb.net/crud-auth?retryWrites=true&w=majority
+JWT_SEC = secretKey@123
+PASS_SEC = passSecret@123
